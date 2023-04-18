@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="587.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.uniquindio.pr2.agenda.controllers.GestionAgendaController">
+   <children>
+      <TabPane layoutX="3.0" layoutY="34.0" prefHeight="573.0" prefWidth="583.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Contactos">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="574.0" prefWidth="583.0">
+                     <children>
+                        <SplitPane dividerPositions="0.5" layoutX="-6.0" orientation="VERTICAL" prefHeight="573.0" prefWidth="595.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Información de contactos" />
+                                    <Separator layoutY="34.0" prefHeight="0.0" prefWidth="583.0" />
+                                    <Label layoutX="14.0" layoutY="46.0" text="Nombre: " />
+                                    <TextField fx:id="txtNombreContacto" layoutX="75.0" layoutY="42.0" prefHeight="25.0" prefWidth="495.0" />
+                                    <Label layoutX="24.0" layoutY="80.0" text="Alias: " />
+                                    <TextField fx:id="txtAliasContacto" layoutX="75.0" layoutY="76.0" prefHeight="25.0" prefWidth="495.0" />
+                                    <Label layoutX="14.0" layoutY="115.0" text="Dirección: " />
+                                    <TextField fx:id="txtDireccionContacto" layoutX="75.0" layoutY="111.0" prefHeight="25.0" prefWidth="494.0" />
+                                    <Label layoutX="16.0" layoutY="151.0" text="Teléfono: " />
+                                    <TextField fx:id="txtTelefonoContacto" layoutX="75.0" layoutY="147.0" prefHeight="25.0" prefWidth="495.0" />
+                                    <Label layoutX="24.0" layoutY="186.0" text="Email:" />
+                                    <TextField fx:id="txtEmailContacto" layoutX="75.0" layoutY="182.0" prefHeight="25.0" prefWidth="495.0" />
+                                    <Separator layoutX="7.0" layoutY="222.0" prefHeight="0.0" prefWidth="583.0" />
+                                    <Button fx:id="btnNuevoContacto" layoutX="75.0" layoutY="238.0" mnemonicParsing="false" onAction="#nuevoContacto" prefHeight="25.0" prefWidth="100.0" text="Nuevo" />
+                                    <Button fx:id="btnActualizarContacto" layoutX="249.0" layoutY="238.0" mnemonicParsing="false" onAction="#actualizarContacto" prefHeight="25.0" prefWidth="100.0" text="Actualizar" />
+                                    <Button fx:id="btnAgregarContacto" layoutX="421.0" layoutY="238.0" mnemonicParsing="false" onAction="#agregarContacto" prefHeight="25.0" prefWidth="100.0" text="Agregar" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="195.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Listado Contactos" />
+                                    <Separator layoutY="33.0" prefHeight="0.0" prefWidth="596.0" />
+                                    <TableView fx:id="tableViewContactos" layoutY="31.0" prefHeight="174.0" prefWidth="597.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnNombreContacto" prefWidth="75.0" text="Nombre" />
+                                        <TableColumn fx:id="columnAliasContacto" prefWidth="75.0" text="Alias" />
+                                          <TableColumn fx:id="columnDireccionContacto" prefWidth="75.0" text="Dirección" />
+                                          <TableColumn fx:id="columnTelefonoContacto" prefWidth="75.0" text="Teléfono" />
+                                          <TableColumn fx:id="columnEmailContacto" prefWidth="75.0" text="Email" />
+                                      </columns>
+                                    </TableView>
+                                    <Button fx:id="btnEliminarContacto" layoutX="247.0" layoutY="219.0" mnemonicParsing="false" onAction="#eliminarContacto" prefHeight="25.0" prefWidth="100.0" text="Eliminar" />
+                                 </children></AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Información General">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.5" layoutX="-6.0" orientation="VERTICAL" prefHeight="545.0" prefWidth="593.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Información general de la agenda" />
+                                    <Separator layoutX="-5.0" layoutY="37.0" prefHeight="0.0" prefWidth="596.0" />
+                                    <Button fx:id="btnBuscaarContacto" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onAction="#buscarContacto" prefHeight="25.0" prefWidth="120.0" text="Buscar Contacto" />
+                                    <TextField fx:id="txtBuscarContacto" layoutX="147.0" layoutY="54.0" prefHeight="25.0" prefWidth="420.0" />
+                                    <Label layoutX="14.0" layoutY="135.0" text="Espacios disponibles en la agenda" />
+                                    <Separator layoutX="5.0" layoutY="154.0" prefHeight="0.0" prefWidth="587.0" />
+                                    <Button fx:id="btnEspaciosEnContactos" layoutX="14.0" layoutY="166.0" mnemonicParsing="false" onAction="#espaciosEnContactos" text="Espacios en contactos" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Button fx:id="btnListarContactos" layoutX="14.0" layoutY="57.0" mnemonicParsing="false" onAction="#listarContactos" prefHeight="25.0" prefWidth="120.0" text="Listar Contactos" />
+                                    <Label layoutX="14.0" layoutY="14.0" text="Información de las listas de la agenda" />
+                                    <Separator layoutX="4.0" layoutY="37.0" prefHeight="0.0" prefWidth="587.0" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="252.0" layoutY="14.0" text="Gestión Agenda" />
+   </children>
+</AnchorPane>
