@@ -3,7 +3,7 @@ package co.uniquindio.pr2.agenda.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
+
 
 import co.uniquindio.pr2.agenda.exceptions.ContactoException;
 
@@ -184,11 +184,11 @@ public class Agenda implements Serializable {
 	 * @param newContacto
 	 * @return
 	 */
-	private Contacto buscarContacto(Contacto newContacto) {
+	/*private Contacto buscarContacto(Contacto newContacto) {
 		List<Contacto> asList = Arrays.asList(listaContactos);
 		Optional<Contacto> findFirst = asList.stream().filter(c -> c.equals(newContacto)).findFirst();
 		return findFirst.get();
-	}
+	}*/
 
 	/**
 	 * Dado un contacto retorna true si existe un contacto en la lista de contactos con un nombre y telefono igual
