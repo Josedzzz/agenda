@@ -13,7 +13,7 @@ public class Reunion implements Serializable{
 	private String descripcion;
 	private String fecha;
 	private String hora;
-	Contacto[] listaContactos;
+	private Contacto[] listaContactos;
 
 
 	public Reunion() {

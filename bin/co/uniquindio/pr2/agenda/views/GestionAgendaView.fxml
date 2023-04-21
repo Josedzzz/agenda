@@ -39,7 +39,7 @@
                                  <children>
                                     <Label layoutX="14.0" layoutY="14.0" text="Listado Contactos" />
                                     <Separator layoutY="33.0" prefHeight="0.0" prefWidth="596.0" />
-                                    <TableView fx:id="tableViewContactos" layoutY="31.0" prefHeight="174.0" prefWidth="597.0">
+                                    <TableView fx:id="tableViewContactos" layoutY="31.0" prefHeight="174.0" prefWidth="593.0">
                                       <columns>
                                         <TableColumn fx:id="columnNombreContacto" prefWidth="75.0" text="Nombre" />
                                         <TableColumn fx:id="columnAliasContacto" prefWidth="75.0" text="Alias" />
@@ -48,7 +48,8 @@
                                           <TableColumn fx:id="columnEmailContacto" prefWidth="75.0" text="Email" />
                                       </columns>
                                     </TableView>
-                                    <Button fx:id="btnEliminarContacto" layoutX="247.0" layoutY="219.0" mnemonicParsing="false" onAction="#eliminarContacto" prefHeight="25.0" prefWidth="100.0" text="Eliminar" />
+                                    <Button fx:id="btnEliminarContacto" layoutX="47.0" layoutY="219.0" mnemonicParsing="false" onAction="#eliminarContacto" prefHeight="25.0" prefWidth="120.0" text="Eliminar" />
+                                    <Button fx:id="btnListadoGruposContacto" layoutX="237.0" layoutY="219.0" mnemonicParsing="false" onAction="#darListadoGruposContacto" prefHeight="25.0" prefWidth="120.0" text="Listado de grupos" />
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>
@@ -56,6 +57,47 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="Grupos">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="545.0" prefWidth="587.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Información de Grupos" />
+                                    <Separator layoutY="31.0" prefHeight="0.0" prefWidth="583.0" />
+                                    <Label layoutX="14.0" layoutY="57.0" text="Nombre:" />
+                                    <TextField fx:id="txtNombreGrupo" layoutX="75.0" layoutY="53.0" prefHeight="25.0" prefWidth="484.0" />
+                                    <Separator layoutY="192.0" prefHeight="0.0" prefWidth="583.0" />
+                                    <ComboBox fx:id="comboBoxCategoriaGrupo" layoutX="75.0" layoutY="110.0" prefWidth="150.0" />
+                                    <Label layoutX="12.0" layoutY="114.0" text="Categoría:" />
+                                    <Button fx:id="btnNuevoGrupo" layoutX="39.0" layoutY="217.0" mnemonicParsing="false" onAction="#nuevoGrupo" prefHeight="25.0" prefWidth="115.0" text="Nuevo" />
+                                    <Button fx:id="btnActualizarGrupo" layoutX="234.0" layoutY="217.0" mnemonicParsing="false" onAction="#actualizarGrupo" prefHeight="25.0" prefWidth="115.0" text="Actualizar" />
+                                    <Button fx:id="btnAgregarGrupo" layoutX="424.0" layoutY="217.0" mnemonicParsing="false" onAction="#agregarGrupo" prefHeight="25.0" prefWidth="115.0" text="Agregar" />
+                                 </children>
+                              </AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="243.0" prefWidth="585.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Listado Grupos:" />
+                                    <TableView fx:id="tableViewGrupos" layoutY="34.0" prefHeight="177.0" prefWidth="348.0">
+                                      <columns>
+                                        <TableColumn fx:id="columnNombreGrupo" prefWidth="172.0" text="Nombre" />
+                                        <TableColumn fx:id="columnCategoriaGrupo" prefWidth="175.0" text="Categoria" />
+                                      </columns>
+                                    </TableView>
+                                    <Button fx:id="btnEliminarGrupo" layoutX="117.0" layoutY="223.0" mnemonicParsing="false" onAction="#eliminarGrupo" prefHeight="25.0" prefWidth="115.0" text="Eliminar" />
+                                    <Button fx:id="btnContactosGrupo" layoutX="403.0" layoutY="34.0" mnemonicParsing="false" onAction="#mostrarContactosGrupo" prefHeight="25.0" prefWidth="125.0" text="Contactos del grupo" />
+                                    <Button fx:id="btnAniadirContactoGrupo" layoutX="403.0" layoutY="84.0" mnemonicParsing="false" onAction="#aniadirContactoGrupo" prefHeight="25.0" prefWidth="125.0" text="Añadir contacto" />
+                                    <Button fx:id="btnEliminarContactoGrupo" layoutX="403.0" layoutY="134.0" mnemonicParsing="false" onAction="#eliminarContactoGrupo" prefHeight="25.0" prefWidth="125.0" text="Eliminar contacto" />
+                                 </children>
+                              </AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab text="Información General">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">

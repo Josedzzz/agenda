@@ -14,10 +14,11 @@ public class Grupo implements Serializable {
 	private Categoria categoria;
 
 
-	public Grupo(String nombre, int numeroContactos) {
+	public Grupo(String nombre, int numeroContactos, Categoria categoria) {
 		super();
 		this.nombre = nombre;
 		this.listaContactos = new Contacto[numeroContactos];
+		this.categoria = categoria;
 	}
 
 

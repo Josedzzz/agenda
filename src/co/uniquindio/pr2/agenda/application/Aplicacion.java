@@ -3,7 +3,9 @@ package co.uniquindio.pr2.agenda.application;
 
 import co.uniquindio.pr2.agenda.controllers.GestionAgendaController;
 import co.uniquindio.pr2.agenda.model.Agenda;
+import co.uniquindio.pr2.agenda.model.Categoria;
 import co.uniquindio.pr2.agenda.model.Contacto;
+import co.uniquindio.pr2.agenda.model.Grupo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -76,6 +78,11 @@ public class Aplicacion extends Application {
 		return eliminarContacto;
 	}
 
+	public String darListadoGruposContacto(Contacto contactoSeleccion) {
+		String gruposListados = agenda.darListadoGruposContacto(contactoSeleccion);
+		return gruposListados;
+	}
+
 	public String darTelefonoContacto(String nombreContacto) {
 		String telefonoContacto = agenda.darTelefonoContacto(nombreContacto);
 		return telefonoContacto;
@@ -90,6 +97,37 @@ public class Aplicacion extends Application {
 		String contactosListados = agenda.listarContactos();
 		return contactosListados;
 	}
+
+	public String mostrarContactosGrupo(Grupo grupoSeleccion) {
+		String contactosGrupo = agenda.mostrarContactosGrupo(grupoSeleccion);
+		return contactosGrupo;
+	}
+
+	public void actualizarGrupo(String nombreGrupo, Categoria categoriaGrupo) {
+		agenda.actualizarGrupo(nombreGrupo, categoriaGrupo);
+	}
+
+	public boolean crearGrupo(String nombreGrupo, Categoria categoriaGrupo) {
+		boolean fueCreado = agenda.aniadirGrupo(nombreGrupo, categoriaGrupo);
+		return fueCreado;
+	}
+
+	public boolean eliminarGrupo(Grupo grupoSeleccion) {
+		boolean eliminarGrupo = agenda.eliminarGrupo(grupoSeleccion);
+		return eliminarGrupo;
+	}
+
+	public boolean aniadirContactoGrupo(Contacto contactoSeleccion, Grupo grupoSeleccion) {
+		boolean fueAgregado = agenda.aniadirContactoGrupo(contactoSeleccion, grupoSeleccion);
+		return fueAgregado;
+	}
+
+	public boolean eliminarContactoGrupo(Contacto contactoSeleccion, Grupo grupoSeleccion) {
+		boolean fueEliminado = agenda.eliminarContactoGrupo(contactoSeleccion, grupoSeleccion);
+		return fueEliminado;
+	}
+
+
 
 
 
