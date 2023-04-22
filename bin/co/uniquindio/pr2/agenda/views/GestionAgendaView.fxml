@@ -48,8 +48,9 @@
                                           <TableColumn fx:id="columnEmailContacto" prefWidth="75.0" text="Email" />
                                       </columns>
                                     </TableView>
-                                    <Button fx:id="btnEliminarContacto" layoutX="47.0" layoutY="219.0" mnemonicParsing="false" onAction="#eliminarContacto" prefHeight="25.0" prefWidth="120.0" text="Eliminar" />
-                                    <Button fx:id="btnListadoGruposContacto" layoutX="237.0" layoutY="219.0" mnemonicParsing="false" onAction="#darListadoGruposContacto" prefHeight="25.0" prefWidth="120.0" text="Listado de grupos" />
+                                    <Button fx:id="btnEliminarContacto" layoutX="47.0" layoutY="219.0" mnemonicParsing="false" onAction="#eliminarContacto" prefHeight="25.0" prefWidth="130.0" text="Eliminar" />
+                                    <Button fx:id="btnListadoGruposContacto" layoutX="232.0" layoutY="219.0" mnemonicParsing="false" onAction="#darListadoGruposContacto" prefHeight="25.0" prefWidth="130.0" text="Listado de grupos" />
+                                    <Button fx:id="btnListadoReunionesContacto" layoutX="412.0" layoutY="219.0" mnemonicParsing="false" onAction="#darListadoReunionesContacto" prefHeight="25.0" prefWidth="130.0" text="Listado de reuniones" />
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>
@@ -109,32 +110,32 @@
                                     <Label layoutX="14.0" layoutY="14.0" text="Información de reuniones" />
                                     <Separator layoutY="31.0" prefHeight="0.0" prefWidth="587.0" />
                                     <Label layoutX="14.0" layoutY="59.0" text="Descripción: " />
-                                    <TextField layoutX="98.0" layoutY="55.0" prefHeight="25.0" prefWidth="460.0" />
+                                    <TextField fx:id="txtDescripcionReunion" layoutX="98.0" layoutY="55.0" prefHeight="25.0" prefWidth="460.0" />
                                     <Label layoutX="31.0" layoutY="107.0" text="Fecha:" />
-                                    <TextField layoutX="98.0" layoutY="103.0" prefHeight="25.0" prefWidth="460.0" />
+                                    <TextField fx:id="txtFechaReunion" layoutX="98.0" layoutY="103.0" prefHeight="25.0" prefWidth="460.0" />
                                     <Label layoutX="34.0" layoutY="163.0" text="Hora:" />
-                                    <TextField layoutX="98.0" layoutY="159.0" prefHeight="25.0" prefWidth="460.0" />
+                                    <TextField fx:id="txtHoraReunion" layoutX="98.0" layoutY="159.0" prefHeight="25.0" prefWidth="460.0" />
                                     <Separator layoutX="-2.0" layoutY="198.0" prefHeight="0.0" prefWidth="587.0" />
-                                    <Button layoutX="49.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Nuevo" />
-                                    <Button layoutX="234.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Actualizar" />
-                                    <Button layoutX="414.0" layoutY="219.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Agregar" />
+                                    <Button fx:id="btnNuevaReunion" layoutX="49.0" layoutY="219.0" mnemonicParsing="false" onAction="#nuevaReunion" prefHeight="25.0" prefWidth="120.0" text="Nuevo" />
+                                    <Button fx:id="btnActualizarReunion" layoutX="234.0" layoutY="219.0" mnemonicParsing="false" onAction="#actualizarReunion" prefHeight="25.0" prefWidth="120.0" text="Actualizar" />
+                                    <Button fx:id="btnAgregarReunion" layoutX="414.0" layoutY="219.0" mnemonicParsing="false" onAction="#agregarReunion" prefHeight="25.0" prefWidth="120.0" text="Agregar" />
                                  </children>
                               </AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                  <children>
                                     <Label layoutX="14.0" layoutY="14.0" text="Listado reuniones:" />
                                     <Separator layoutY="31.0" prefHeight="0.0" prefWidth="583.0" />
-                                    <TableView layoutY="31.0" prefHeight="173.0" prefWidth="345.0">
+                                    <TableView fx:id="tableViewReuniones" layoutY="31.0" prefHeight="173.0" prefWidth="345.0">
                                       <columns>
-                                        <TableColumn prefWidth="173.0" text="Descripción" />
-                                        <TableColumn prefWidth="94.0" text="Fecha" />
-                                          <TableColumn prefWidth="76.0" text="Hora" />
+                                        <TableColumn fx:id="columnDescripcionReunion" prefWidth="173.0" text="Descripción" />
+                                        <TableColumn fx:id="columnFechaReunion" prefWidth="94.0" text="Fecha" />
+                                          <TableColumn fx:id="columnHoraReunion" prefWidth="76.0" text="Hora" />
                                       </columns>
                                     </TableView>
-                                    <Button layoutX="113.0" layoutY="221.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" text="Eliminar" />
-                                    <Button layoutX="392.0" layoutY="44.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Contactos de la reunión" />
-                                    <Button layoutX="392.0" layoutY="93.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="145.0" text="Añadir Contacto" />
-                                    <Button layoutX="392.0" layoutY="142.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="146.0" text="Eliminar Contacto" />
+                                    <Button fx:id="btnEliminarReunion" layoutX="113.0" layoutY="221.0" mnemonicParsing="false" onAction="#eliminarReunion" prefHeight="25.0" prefWidth="120.0" text="Eliminar" />
+                                    <Button fx:id="btnContactosReunion" layoutX="392.0" layoutY="44.0" mnemonicParsing="false" onAction="#mostratContactosReunion" prefHeight="25.0" prefWidth="145.0" text="Contactos de la reunión" />
+                                    <Button fx:id="btnAniadirContactoReunion" layoutX="392.0" layoutY="93.0" mnemonicParsing="false" onAction="#aniadirContactoReunion" prefHeight="25.0" prefWidth="145.0" text="Añadir Contacto" />
+                                    <Button fx:id="btnEliminarContactoReunion" layoutX="392.0" layoutY="142.0" mnemonicParsing="false" onAction="#eliminarContactoReunion" prefHeight="25.0" prefWidth="146.0" text="Eliminar Contacto" />
                                  </children>
                               </AnchorPane>
                           </items>

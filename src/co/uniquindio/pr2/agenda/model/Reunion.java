@@ -21,12 +21,12 @@ public class Reunion implements Serializable{
 	}
 
 
-	public Reunion(String descripcion, String fecha, String hora, Contacto[] listaContactos) {
+	public Reunion(String descripcion, String fecha, String hora, int numeroContactos) {
 		super();
 		this.descripcion = descripcion;
 		this.fecha = fecha;
 		this.hora = hora;
-		this.listaContactos = listaContactos;
+		this.listaContactos = new Contacto[numeroContactos];
 	}
 
 

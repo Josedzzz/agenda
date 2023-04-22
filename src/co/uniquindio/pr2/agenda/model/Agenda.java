@@ -1,11 +1,12 @@
 package co.uniquindio.pr2.agenda.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
 
-import co.uniquindio.pr2.agenda.exceptions.ContactoException;
 
 public class Agenda implements Serializable {
 
@@ -37,6 +38,12 @@ public class Agenda implements Serializable {
 		Grupo grupo2 = new Grupo("Work", 10, Categoria.OFICINA);
 		listaGrupos[0] = grupo1;
 		listaGrupos[1] = grupo2;
+
+		//Inicializo valores para las reuniones en la tabla
+		Reunion reunion1 = new Reunion("Aspectos legales", "12/05/2023", "14:05", 10);
+		Reunion reunion2 = new Reunion("Aspectos de infraestructura", "10/05/2023", "10:05", 10);
+		listaReuniones[0] = reunion1;
+		listaReuniones[1] = reunion2;
 	}
 
 
@@ -160,6 +167,15 @@ public class Agenda implements Serializable {
 		listaContactos[posDisponible] = newContacto;
 	}*/
 
+	/**
+	 * Dado los atributos de un contacto este me dice si pudo ser creado o no
+	 * @param nombre
+	 * @param alias
+	 * @param direccion
+	 * @param telefono
+	 * @param email
+	 * @return
+	 */
 	public boolean aniadirContacto(String nombre, String alias, String direccion, String telefono, String email) {
 		Contacto contacto = obtenerContacto(nombre, telefono);
 		int posDisponible = obtenerPosicionLibre();
@@ -206,6 +222,11 @@ public class Agenda implements Serializable {
 		return asList.stream().filter(c -> c.equals(newContacto)).findFirst().isPresent();
 	}
 
+	/**
+	 * Dado un contacto me dice a cuales grupos este pertenece
+	 * @param contactoSeleccion
+	 * @return
+	 */
 	public String darListadoGruposContacto(Contacto contactoSeleccion) {
 		String gruposListados = "";
 		for(Grupo grupo : contactoSeleccion.getListaGrupos()) {
@@ -214,6 +235,21 @@ public class Agenda implements Serializable {
 			}
 		}
 		return gruposListados;
+	}
+
+	/**
+	 * Dado un contacto me dice a cuales reuniones este pertenece
+	 * @param contactoSeleccion
+	 * @return
+	 */
+	public String darListadoReunionesContacto(Contacto contactoSeleccion) {
+		String reunionesListadas = "";
+		for(Reunion reunion : contactoSeleccion.getListaReuniones()) {
+			if(reunion != null) {
+				reunionesListadas = reunionesListadas + reunion.getDescripcion() + "\n";
+			}
+		}
+		return reunionesListadas;
 	}
 
 	/**
@@ -246,7 +282,8 @@ public class Agenda implements Serializable {
 	}
 
 	/**
-	 * Dado un contacto como parametro
+	 * Dado un contacto como parametro lo elimina de la lista de contactos
+	 * y aparte el contacto es eliminado de las reuniones y grupos en los que este
 	 * @param contactoEliminar
 	 */
 	public boolean eliminarContacto(Contacto contactoEliminar) {
@@ -259,7 +296,48 @@ public class Agenda implements Serializable {
 	            break;
 	        }
 	    }
+
+	    if(fueEliminado) {
+	    	borrarContactoEnGrupos(contactoEliminar);
+	    	borrarContactoEnReuniones(contactoEliminar);
+	    }
 	    return fueEliminado;
+	}
+
+	/**
+	 * Dado un contacto que se vaya a eliminar, se borra en todas las reuniones en la que este
+	 * @param contactoEliminar
+	 */
+	private void borrarContactoEnReuniones(Contacto contactoEliminar) {
+		for(int i = 0; i < listaReuniones.length; i++) {
+			Reunion reunion = listaReuniones[i];
+			if(reunion != null) {
+				for(int j = 0; j < reunion.getListaContactos().length; j++) {
+					Contacto contacto = reunion.getListaContactos()[j];
+					if(contacto != null && contacto.equals(contactoEliminar)) {
+						reunion.getListaContactos()[j] = null;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Dado un contacto a eliminar, se borra en todos los grupos en los que este
+	 * @param contactoEliminar
+	 */
+	private void borrarContactoEnGrupos(Contacto contactoEliminar) {
+		for(int i = 0; i < listaGrupos.length; i++) {
+			Grupo grupo = listaGrupos[i];
+			if(grupo != null) {
+				for(int j = 0; j < grupo.getListaContactos().length; j++) {
+					Contacto contacto = grupo.getListaContactos()[j];
+					if(contacto != null && contacto.equals(contactoEliminar)) {
+						grupo.getListaContactos()[j] = null;
+					}
+				}
+			}
+		}
 	}
 
 
@@ -292,6 +370,11 @@ public class Agenda implements Serializable {
 
 //------------------------ GRUPOS ---------------------------------
 
+	/**
+	 * Dado un nombre me devuelve el grupo al que le corresponde el nombre
+	 * @param nombre
+	 * @return
+	 */
 	public Grupo obtenerGrupo(String nombre) {
 		Grupo grupoEncontrado = null;
 		for(Grupo grupo : listaGrupos) {
@@ -303,6 +386,11 @@ public class Agenda implements Serializable {
 		return grupoEncontrado;
 	}
 
+	/**
+	 * Dado un grupo me muestra los contactos que pertencen al grupo
+	 * @param grupo
+	 * @return
+	 */
 	public String mostrarContactosGrupo(Grupo grupo) {
 		String contactosGrupo = "";
 		for(Contacto contacto : grupo.getListaContactos()) {
@@ -313,13 +401,22 @@ public class Agenda implements Serializable {
 		return contactosGrupo;
 	}
 
-
+	/**
+	 * Actualiza la categoria de un grupo
+	 * @param nombreGrupo
+	 * @param categoriaGrupo
+	 */
 	public void actualizarGrupo(String nombreGrupo, Categoria categoriaGrupo) {
 		Grupo grupoEncontrado = obtenerGrupo(nombreGrupo);
 		grupoEncontrado.setCategoria(categoriaGrupo);
 	}
 
-
+	/**
+	 * Añade un grupo dado sus atributos (se verifica que no esté repetido y que haya espacio)
+	 * @param nombreGrupo
+	 * @param categoriaGrupo
+	 * @return
+	 */
 	public boolean aniadirGrupo(String nombreGrupo, Categoria categoriaGrupo) {
 		Grupo grupo = obtenerGrupo(nombreGrupo);
 		int posDisponibleGrupo = obtenerPosicionLibreGrupo();
@@ -332,7 +429,10 @@ public class Agenda implements Serializable {
 		return false;
 	}
 
-
+	/**
+	 * Me dice cual es la posición libre en el arreglo de grupos
+	 * @return
+	 */
 	private int obtenerPosicionLibreGrupo() {
 	    for (int i = 0; i < listaGrupos.length; i++) {
 	        if(listaGrupos[i] == null) {
@@ -342,7 +442,11 @@ public class Agenda implements Serializable {
 	    return -1;
 	}
 
-
+	/**
+	 * Dado un grupo lo elimina de la lista de grupos y elimina de los contactos el grupo
+	 * @param grupoEliminar
+	 * @return
+	 */
 	public boolean eliminarGrupo(Grupo grupoEliminar) {
 		boolean fueEliminado = false;
 	    for(int i = 0; i < listaGrupos.length; i++) {
@@ -353,10 +457,37 @@ public class Agenda implements Serializable {
 	            break;
 	        }
 	    }
+
+	    if(fueEliminado) {
+	    	eliminarGrupoContactos(grupoEliminar); //Es para eliminar este grupo de todos los contactos
+	    }
 	    return fueEliminado;
 	}
 
+	/**
+	 * Dado un grupo a eliminar, elimina de los contactos (listado de grupos) este grupo
+	 * @param grupoEliminar
+	 */
+	private void eliminarGrupoContactos(Grupo grupoEliminar) {
+		for(int i = 0; i < listaContactos.length; i++) {
+			Contacto contacto = listaContactos[i];
+			if(contacto != null) {
+				for(int j = 0; j < contacto.getListaGrupos().length; j++) {
+					Grupo grupo = contacto.getListaGrupos()[j];
+					if(grupo != null && grupo.equals(grupoEliminar)) {
+						contacto.getListaGrupos()[j] = null;
+					}
+				}
+			}
+		}
+	}
 
+	/**
+	 * Añade un contacto a un grupo, siempre y cuando cada uno de ellos tenga espacio
+	 * @param contactoSeleccion
+	 * @param grupoSeleccion
+	 * @return
+	 */
 	public boolean aniadirContactoGrupo(Contacto contactoSeleccion, Grupo grupoSeleccion) {
 		boolean fueAgregado = false;
 
@@ -378,6 +509,11 @@ public class Agenda implements Serializable {
 		return fueAgregado;
 	}
 
+	/**
+	 * Me obtiene la posicion libre para la lista de contactos del grupo
+	 * @param listaContactosAux
+	 * @return
+	 */
 	private int obtenerPosicionLibreContactoGrupo(Contacto[] listaContactosAux) {
 	    for (int i = 0; i < listaContactosAux.length; i++) {
 	        if(listaContactosAux[i] == null) {
@@ -387,6 +523,11 @@ public class Agenda implements Serializable {
 	    return -1;
 	}
 
+	/**
+	 * Me obtiene la posicion libre para la lista de grupos del contacto
+	 * @param listaGruposAux
+	 * @return
+	 */
 	private int obtenerPosicionLibreGrupoContacto(Grupo[] listaGruposAux) {
 		for (int i = 0; i < listaGruposAux.length; i++) {
 			if(listaGruposAux[i] == null) {
@@ -396,6 +537,12 @@ public class Agenda implements Serializable {
 		return -1;
 	}
 
+	/**
+	 * Me dice si el contacto ya existe en un grupo
+	 * @param contactoSeleccion
+	 * @param listaContactosAux
+	 * @return
+	 */
 	private boolean existeContactoGrupo(Contacto contactoSeleccion, Contacto[] listaContactosAux) {
 		boolean existe = false;
 		for(Contacto contacto : listaContactosAux) {
@@ -407,6 +554,12 @@ public class Agenda implements Serializable {
 		return existe;
 	}
 
+	/**
+	 * Me dice si el grupo ya existe en un contacto
+	 * @param grupoSeleccion
+	 * @param listaGruposAux
+	 * @return
+	 */
 	private boolean existeGrupoContacto(Grupo grupoSeleccion, Grupo[] listaGruposAux) {
 		boolean existe = false;
 		for(Grupo grupo : listaGruposAux) {
@@ -418,7 +571,12 @@ public class Agenda implements Serializable {
 		return existe;
 	}
 
-
+	/**
+	 * Dado un grupo y un contacto, se elimina cada uno del arreglo del otro
+	 * @param contactoSeleccion
+	 * @param grupoSeleccion
+	 * @return
+	 */
 	public boolean eliminarContactoGrupo(Contacto contactoSeleccion, Grupo grupoSeleccion) {
 		boolean fueEliminado = false;
 		//Tengo que eliminar a cada uno de su respectiva lista
@@ -446,6 +604,279 @@ public class Agenda implements Serializable {
 	    }
 		return fueEliminado;
 	}
+
+	/**
+	 * Valida un string que este en el formato: dd/MM/yyyy
+	 * @param fecha
+	 * @return
+	 */
+	public boolean validarFechaReunion(String fecha) {
+	    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+	    formatoFecha.setLenient(false);
+	    try {
+	        formatoFecha.parse(fecha);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
+	}
+
+	/**
+	 * Valida un string que este en el formato: HH:mm
+	 * @param hora
+	 * @return
+	 */
+	public boolean validarHoraReunion(String hora) {
+	    SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
+	    formatoHora.setLenient(false);
+	    try {
+	        formatoHora.parse(hora);
+	        return true;
+	    } catch (ParseException e) {
+	        return false;
+	    }
+	}
+
+	/**
+	 * Actualiza los atributos de la reunion
+	 * @param reunionSeleccion
+	 * @param descripcion
+	 * @param fecha
+	 * @param hora
+	 */
+	public void actualizarReunion(Reunion reunionSeleccion, String descripcion, String fecha, String hora) {
+		Reunion reunion = obtenerReunion(reunionSeleccion);
+		reunion.setDescripcion(descripcion);
+		reunion.setFecha(fecha);
+		reunion.setHora(hora);
+	}
+
+	/**
+	 * Dado una instancia de reunion como parametro, me dice si esta se encuentra
+	 * @param reunionSeleccion
+	 * @return
+	 */
+	private Reunion obtenerReunion(Reunion reunionSeleccion) {
+		Reunion reunionEcontrada = null;
+		for(Reunion reunion : listaReuniones) {
+			if(reunion != null && reunion.equals(reunionSeleccion)) {
+				reunionEcontrada = reunion;
+			}
+		}
+		return reunionEcontrada;
+	}
+
+	/**
+	 * Crea la reunion siempre y cuando no este repetida y el arreglo tenga espacio
+	 * @param descripcion
+	 * @param fecha
+	 * @param hora
+	 * @return
+	 */
+	public boolean crearReunion(String descripcion, String fecha, String hora) {
+		Reunion reunionNueva = new Reunion(descripcion, fecha, hora, 10);
+		Reunion reunionEncotrada = obtenerReunion(reunionNueva);
+		int posDisponible = obtenerPosicicionDisponibleReunion();
+
+		if(reunionEncotrada == null && posDisponible != -1) {
+			listaReuniones[posDisponible] = reunionNueva;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Me dice la posicion libre de la lista de reuniones
+	 */
+	private int obtenerPosicicionDisponibleReunion() {
+		for(int i = 0; i < listaReuniones.length; i++) {
+			if(listaReuniones[i] == null) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Elimina una reunion de la lista de reuniones y elimina la reunion de los contactos
+	 * @param reunionSeleccion
+	 * @return
+	 */
+	public boolean eliminarReunion(Reunion reunionSeleccion) {
+		boolean fueEliminada = false;
+		for(int i = 0; i < listaReuniones.length; i++) {
+			Reunion reunion = listaReuniones[i];
+			if(reunion != null && reunion.equals(reunionSeleccion)) {
+				listaReuniones[i] = null;
+				fueEliminada = true;
+				break;
+			}
+		}
+
+		if(fueEliminada) {
+			eliminarReunionContactos(reunionSeleccion); //Es para eliminar la reunión de todos los contactos
+		}
+		return fueEliminada;
+	}
+
+	/**
+	 * Dado una reunion a eliminar, esta es eliminada de la lista de reuniones de cada contacto
+	 * @param reunionSeleccion
+	 */
+	private void eliminarReunionContactos(Reunion reunionSeleccion) {
+		for(int i = 0; i < listaContactos.length; i++) {
+			Contacto contacto = listaContactos[i];
+			if(contacto != null) {
+				for(int j = 0; j < contacto.getListaReuniones().length; j++) {
+					Reunion reunion = contacto.getListaReuniones()[j];
+					if(reunion != null && reunion.equals(reunionSeleccion)) {
+						contacto.getListaReuniones()[j] = null;
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Añade un contacto a la lista de reuniones siempre y cuando se tenga el espacio en cada arreglo y no esté repetido
+	 * @param contactoSeleccion
+	 * @param reunionSeleccion
+	 * @return
+	 */
+	public boolean aniadirContactoReunion(Contacto contactoSeleccion, Reunion reunionSeleccion) {
+		boolean fueAgregado = false;
+
+		Contacto[] listaContactosAux = reunionSeleccion.getListaContactos();
+		int posDisponibleContacto = obtenerPosicionLibreContactoReunion(listaContactosAux);
+
+		Reunion[] listaReunionesAux = contactoSeleccion.getListaReuniones();
+		int posDisponibleReunion = obtenerPosicionLibreReunionContacto(listaReunionesAux);
+
+		if(!existeContactoReunion(contactoSeleccion, listaContactosAux) && posDisponibleContacto != -1) {
+			if(!existeReunionContacto(reunionSeleccion, listaReunionesAux) && posDisponibleReunion != -1) {
+				listaContactosAux[posDisponibleContacto] = contactoSeleccion;
+				reunionSeleccion.setListaContactos(listaContactosAux);
+				listaReunionesAux[posDisponibleReunion] = reunionSeleccion;
+				contactoSeleccion.setListaReuniones(listaReunionesAux);
+				fueAgregado = true;
+			}
+		}
+		return fueAgregado;
+	}
+
+	/**
+	 * Me da la posicion libre para la lista de contactos de una reunion
+	 * @param listaContactosAux
+	 * @return
+	 */
+	private int obtenerPosicionLibreContactoReunion(Contacto[] listaContactosAux) {
+		for(int i = 0; i < listaContactosAux.length; i++) {
+			if(listaContactosAux[i] == null) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Me da la posicion libre para la lista de reuniones en un contacto
+	 * @param listaReunionesAux
+	 * @return
+	 */
+	private int obtenerPosicionLibreReunionContacto(Reunion[] listaReunionesAux) {
+		for(int i = 0; i < listaReunionesAux.length; i++) {
+			if(listaReunionesAux[i] == null) {
+				return i;
+			}
+		}
+		return -1;
+	}
+
+	/**
+	 * Me dice si un contacto ya existe en la lista de contactos de una reunion
+	 * @param contactoSeleccion
+	 * @param listaContactosAux
+	 * @return
+	 */
+	private boolean existeContactoReunion(Contacto contactoSeleccion, Contacto[] listaContactosAux) {
+		boolean existe = false;
+		for(Contacto contacto : listaContactosAux) {
+			if(contacto != null && contacto.equals(contactoSeleccion)) {
+				existe = true;
+				break;
+			}
+		}
+		return existe;
+	}
+
+	/**
+	 * Me dice si una reunion ya existe en la lista de reuniones de un contacto
+	 * @param reunionSeleccion
+	 * @param listaReunionesAux
+	 * @return
+	 */
+	private boolean existeReunionContacto(Reunion reunionSeleccion, Reunion[] listaReunionesAux) {
+		boolean existe = false;
+		for(Reunion reunion : listaReunionesAux) {
+			if(reunion != null && reunion.equals(reunionSeleccion)) {
+				existe = true;
+				break;
+			}
+		}
+		return existe;
+	}
+
+	/**
+	 * Elimina los contactos de una reunion, asi como los contactos eliminan esa reunion de su lista de reuniones
+	 * @param contactoSeleccion
+	 * @param reunionSeleccion
+	 * @return
+	 */
+	public boolean eliminarContactoReunion(Contacto contactoSeleccion, Reunion reunionSeleccion) {
+		boolean fueEliminado = false;
+		//Tengo que eliminar a cada uno de su respectiva lista
+		Contacto[] listaContactosAux = reunionSeleccion.getListaContactos();
+		Reunion[] listaReunionesAux = contactoSeleccion.getListaReuniones();
+
+	    for(int i = 0; i < listaContactosAux.length; i++) {
+	        Contacto contacto = listaContactosAux[i];
+	        if(contacto != null && contacto.equals(contactoSeleccion)) {
+	            listaContactosAux[i] = null;
+	            reunionSeleccion.setListaContactos(listaContactosAux);
+	            fueEliminado = true;
+	            break;
+	        }
+	    }
+
+	    for(int i = 0; i < listaReunionesAux.length; i++) {
+	        Reunion reunion = listaReunionesAux[i];
+	        if(reunion != null && reunion.equals(reunionSeleccion)) {
+	            listaReunionesAux[i] = null;
+	            contactoSeleccion.setListaReuniones(listaReunionesAux);
+	            fueEliminado = true;
+	            break;
+	        }
+	    }
+		return fueEliminado;
+	}
+
+	/**
+	 * Me muestra los contactos que tiene una reunion
+	 * @param reunionSeleccion
+	 * @return
+	 */
+	public String mostrarContactosReunion(Reunion reunionSeleccion) {
+		String contactosReunion = "";
+		for(Contacto contacto : reunionSeleccion.getListaContactos()) {
+			if(contacto != null) {
+				contactosReunion = contactosReunion + contacto.getNombre() + " : " + contacto.getTelefono() + "\n";
+			}
+		}
+		return contactosReunion;
+	}
+
+
+
 
 
 
